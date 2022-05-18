@@ -1,0 +1,13 @@
+import { CssBaseline } from "@mui/material";
+import { StrictMode } from "react";
+import * as ReactDOM from "react-dom";
+
+import App from "./App";
+
+ReactDOM.render(
+  <StrictMode>
+    <CssBaseline />
+    <App />
+  </StrictMode>,
+  document.getElementById("root")
+);
