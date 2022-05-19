@@ -1,7 +1,8 @@
 import Login from "./components/login";
+import Register from "./components/register";
 
 export const App = () => {
-  return <Login open />;
+  return <Register open />;
 };
 
 export default App;
