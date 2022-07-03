@@ -4,6 +4,7 @@ import expressSession from 'express-session';
 import mongoose from 'mongoose';
 
 const app = express()
+
 const httpServer = http.createServer(app);
 const sess: expressSession.SessionOptions = {
     secret: process.env.SESSION_SECRET ?? '',

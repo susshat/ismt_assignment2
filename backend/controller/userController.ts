@@ -26,7 +26,7 @@ export const createUser: RequestController = [
             });
 
             await addUser.save();
-            return res.status(201).jason(addUser);
+            return res.status(201).json(addUser);
         } catch (error) {
             return res.status(500).json('internal server error');
         }
