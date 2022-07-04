@@ -1,8 +1,17 @@
-import Login from "./components/login";
-import Register from "./components/register";
+import {  useRoutes } from "react-router-dom";
+import AppRoutes from "./routes";
+import { Suspense,  } from 'react';
+
+
 
 export const App = () => {
-  return <Register open />;
+  const element = useRoutes(AppRoutes);
+  return (  
+    <Suspense fallback={<> Loading ... </>}>    
+    {element}
+</Suspense>
+  )
+  ;
 };
 
 export default App;
