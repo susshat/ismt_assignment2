@@ -52,15 +52,13 @@ export const loginUser: RequestController = [
                 user.password,
                 req.body.password
             );
-
-            // const userIdlogin = await User.findOne({
-            //     userId: req.session.id
-            // })
-
             if (!isPasswordValid)
             return res
               .status(401)
               .json({ status: 401, message: "Invalid Password" });
+
+              req.session.userId= user._id.toString();
+              res.json(user);
 
         } catch (error) {
             return res.status(500).json('internal server error');
@@ -71,8 +69,15 @@ export const loginUser: RequestController = [
 export const changePassword: RequestController = [
     async (req, res) =>{
         try {
-          
-            
+            const oldPassword=  await bcrypt.verify(req.body.oldPassword,res.locals.user.password);
+
+            if(oldPassword){
+                User.findOneAndUpdate({ _id:res.locals.user._id,},
+                    {password:req.body.newPassword})
+            }else{
+                return res.status(400).json('Old password do-not match');
+            }
+
         } catch (error) {
             return res.status(500).json('internal server error'); 
         }
@@ -82,7 +87,19 @@ export const changePassword: RequestController = [
 export const forgetPAssword: RequestController = [
     async (req, res) =>{
         try {
-            
+            const user = await User.findOne({
+                username: req.body.uername
+            })
+            if(user){
+                const newUser = await User.findOneAndUpdate({ _id:res.locals.user._id,},
+                    {password:req.body.newPassword},
+                    {new:true}) 
+                  return res.json(newUser);
+                 
+            }else{
+                return res.status(400).json('Old password do-not match');
+            }
+
         } catch (error) {
             return res.status(500).json('internal server error');
         }
