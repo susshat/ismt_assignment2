@@ -1,7 +1,7 @@
-import { RequestHandler } from "express";
-import User from "../model/userModel";
 
-const auth: RequestHandler=  async (req, res, next) =>{
+const User = require ("../model/userModel");
+
+const auth=  async (req, res, next) =>{
 try {
     const userId = req.session.userId;
 if(!userId){
@@ -11,7 +11,7 @@ if(!userId){
         username: req.body.uername
     })
     if(user) {
-        res.locals.user= user as any;
+        res.locals.user= user ;
         next();
     }else{
         return res.status(409).json({ message: "User not authenticated" });
@@ -21,4 +21,4 @@ if(!userId){
 }
 }
 
-export default auth;
+module.exports = auth;

@@ -1,12 +1,5 @@
-import { Document, Schema, ObjectId, model } from "mongoose";
+const { Document, Schema, ObjectId, model } =require("mongoose") ;
 
-export interface IUser extends Document<ObjectId>{
-    username:string;
-    password:string;
-    name:string;
-    email:string;
-    oldPassword:string;
-}
 
 const UserSchema = new Schema(
     {
@@ -36,6 +29,6 @@ const UserSchema = new Schema(
         timestamps:true
     }
 );
-const User = model<IUser>("User", UserSchema);
+const User = model>("User", UserSchema);
 
-export default User;
+module.exports = User;

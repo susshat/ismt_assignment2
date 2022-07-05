@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose =require("mongoose") ;
 
 function connect() {
   const dbUri = process.env.CONNECTION_URI ?? "";
@@ -6,4 +6,4 @@ function connect() {
   return mongoose.connect(dbUri);
 }
 
-export default connect;
+module.exports = connect;

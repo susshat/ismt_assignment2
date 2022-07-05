@@ -1,10 +1,10 @@
-import {  useRoutes } from "react-router-dom";
-import AppRoutes from "./routes";
-import { Suspense, useEffect, useState,  } from 'react';
-import { atom, useRecoilState } from "recoil";
-import axios from "axios";
+const {  useRoutes } =require( "react-router-dom");
+const AppRoutes = require("./routes");
+const { Suspense, useEffect, useState,  } =require ('react');
+const { atom, useRecoilState } =require ("recoil");
+const axios = require("axios");
 
-const textState = atom<any>({
+export const textState = atom({
   key: 'auth', // unique ID (with respect to other atoms/selectors)
   default: {
     authState:undefined,
@@ -12,12 +12,10 @@ const textState = atom<any>({
   }, // default value (aka initial value)
 });
 
-
 export const App = () => {
   const element = useRoutes(AppRoutes);
   const [text, setText] = useRecoilState(textState);
 
- 
   useEffect(()=>{
     axios.get('/api/user/profile').then(
      (res)=>{ setText({authState:true, user:res.data})})

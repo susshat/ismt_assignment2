@@ -14,46 +14,44 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SubmitHandler } from 'react-hook-form';
+import { useRecoilState } from "recoil";
+import { textState } from "../App";
+import { AxiosError } from 'axios';
 
-export interface DialogProps {
-  open: boolean;
-}
 
-export interface LoginDetails{
-  username: string;
-  password: string;
-}
 
-export type login =Record<"username" | "password", string>;
 
-export const loginUser = async(data: LoginDetails) => 
+
+export const loginUser = async(data) => 
  axios.post('/api/user/login', data);
 
- export const loginOut = async(data: LoginDetails) => 
+ export const loginOut = async(data) => 
  axios.post('/api/user/logout', data);
 
  export const getSessionUser=()=>
   axios.get('/api/user/profile');
 
-const theme = createTheme();
+const theme = createTheme(); 
 
- 
-
-const Login = (props: DialogProps) => {
+const Login = (props) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [failedMessage, setFailedMessage] = useState('');
- 
+  const [text, setText] = useRecoilState(textState);
   
-const onFormSubmit: SubmitHandler<LoginDetails> = async(data) => {
+const onFormSubmit = async(data) => {
   setLoading(true);
   setFailedMessage('');
   loginUser(data)
   .then((res) =>{
- 
+    setText({authState:true, user:res.data})
   })
+  .catch((err) => {
+    setFailedMessage('Something went wrong');
+  })
+  .finally(() => setLoading(false));
 }
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -85,7 +83,7 @@ const onFormSubmit: SubmitHandler<LoginDetails> = async(data) => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onFormSubmit)}
             noValidate
             sx={{ mt: 1 }}
           >
