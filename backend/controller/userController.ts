@@ -84,7 +84,7 @@ export const changePassword: RequestController = [
     }
 
 ];
-export const forgetPAssword: RequestController = [
+export const forgetPassword: RequestController = [
     async (req, res) =>{
         try {
             const user = await User.findOne({
@@ -106,5 +106,26 @@ export const forgetPAssword: RequestController = [
     }
 
 ];
+export const logOut: RequestController = [
+    async (req, res) => {
+        req.session.destroy((error) => {
+          if (error) {
+            console.log(error);
+            return res.status(500).json({
+              status: 500,
+              message: "Something went wrong. Try Again!",
+            });
+          }
+          return res.status(200).send({ message: "Logged Out" });
+        });
+      },
+    ];
+
+    export const refresh: RequestController = [
+        async(req,res) =>{
+            const profile =  res.locals.user
+            return res.json(profile) ;
+        }
+    ]
 
 

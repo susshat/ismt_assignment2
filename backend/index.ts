@@ -27,6 +27,7 @@ const bootstrap = async () => {
 
   app.use(expressSession(sess));
   app.use(express.json());
+  app.use('/api',APIRouter);
 
   await mongoose.connect(mongoString);
   const database = mongoose.connection;
@@ -38,7 +39,6 @@ const bootstrap = async () => {
   database.once('error', (error) => {
     console.log('Database connected')
 
-    app.use(APIRouter);
   });
 
   httpServer.listen(8000, () => {

@@ -28,7 +28,8 @@ const UserSchema = new Schema(
         },
         oldPassword:{
             type:String,
-            required:true
+            required:true,
+            default: new Date()
         },
     },
     {

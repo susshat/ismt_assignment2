@@ -10,19 +10,49 @@ import {
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { SubmitHandler } from 'react-hook-form';
 
 export interface DialogProps {
   open: boolean;
 }
+
+export interface LoginDetails{
+  username: string;
+  password: string;
+}
+
+export type login =Record<"username" | "password", string>;
+
+export const loginUser = async(data: LoginDetails) => 
+ axios.post('/api/user/login', data);
+
+ export const loginOut = async(data: LoginDetails) => 
+ axios.post('/api/user/logout', data);
+
+ export const getSessionUser=()=>
+  axios.get('/api/user/profile');
+
 const theme = createTheme();
+
  
 
 const Login = (props: DialogProps) => {
   const navigate = useNavigate();
-
-
+  const [loading, setLoading] = useState(false);
+  const [failedMessage, setFailedMessage] = useState('');
+ 
+  
+const onFormSubmit: SubmitHandler<LoginDetails> = async(data) => {
+  setLoading(true);
+  setFailedMessage('');
+  loginUser(data)
+  .then((res) =>{
+ 
+  })
+}
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,7 +65,7 @@ const Login = (props: DialogProps) => {
   const handleNavigate = () => {
     navigate('/register');
   }
-
+  
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
