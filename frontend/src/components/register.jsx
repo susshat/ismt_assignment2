@@ -11,6 +11,7 @@ import {
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import axios from "axios";
 import { useFormik } from 'formik';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
@@ -35,6 +36,8 @@ const Register = (props) => {
   //     password: data.get("password"),
   //   });
   // };
+
+  const navigate = useNavigate();
   const handleNavigate = () => {
     navigate('/register');
   }
@@ -94,7 +97,7 @@ const Register = (props) => {
               type="confirmPassword"
               id="confirmPassword"
               onChange={formik.handleChange}
-              value={formik.values.confirm-password}
+              value={formik.values.confirmpassword}
             />
             <Button
             onClick={handleNavigate}

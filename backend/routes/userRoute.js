@@ -5,7 +5,8 @@ const auth = require('../middleware/auth');
 
 const router = Router();
 
- router.post("/register",     async (req, res) =>{
+ router.post("/register",
+  async (req, res) =>{
     try {
         
         const user = req.body;
@@ -30,7 +31,8 @@ const router = Router();
     }
 }
 );
- router.post("/login",  async (req, res) =>{
+ router.post("/login",  
+ async (req, res) =>{
     try {
         const user = await User.findOne({
             username: req.body.uername
@@ -59,7 +61,8 @@ const router = Router();
         return res.status(500).json('internal server error');
     }
 });
- router.post("/changePassword", async (req, res) =>{
+ router.post("/changePassword", 
+ async (req, res) =>{
     try {
         const oldPassword=  await bcrypt.verify(req.body.oldPassword,res.locals.user.password);
 
@@ -74,7 +77,8 @@ const router = Router();
         return res.status(500).json('internal server error'); 
     }
 });
- router.post("/forgetPassword",    async (req, res) =>{
+ router.post("/forgetPassword",    
+ async (req, res) =>{
     try {
         const user = await User.findOne({
             username: req.body.uername
@@ -93,7 +97,8 @@ const router = Router();
         return res.status(500).json('internal server error');
     }
 });
- router.post("/logout",    async (req, res) => {
+ router.post("/logout",    
+ async (req, res) => {
     req.session.destroy((error) => {
       if (error) {
         console.log(error);
@@ -105,7 +110,8 @@ const router = Router();
       return res.status(200).send({ message: "Logged Out" });
     });
   },);
- router.post("/profile",auth, async(req,res) =>{
+ router.post("/profile",auth, 
+ async(req,res) =>{
     const profile =  res.locals.user
     return res.json(profile) ;
 });

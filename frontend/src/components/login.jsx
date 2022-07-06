@@ -10,26 +10,25 @@ import {
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from "recoil";
 import { textState } from "../App";
-import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
+import ReCAPTCHA from "react-google-recaptcha";
 
 
-export const loginUser = async(data) => 
- axios.post('/api/user/login', data);
+export const loginUser = async (data) =>
+  axios.post('/api/user/login', data);
 
- export const logOut = async(data) => 
- axios.post('/api/user/logout', data);
+export const logOut = async (data) =>
+  axios.post('/api/user/logout', data);
 
- export const getSessionUser=()=>
+export const getSessionUser = () =>
   axios.get('/api/user/profile');
 
-const theme = createTheme(); 
+const theme = createTheme();
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -43,25 +42,28 @@ const Login = (props) => {
     },
     onSubmit: values => console.log(values)
   })
-  
-// const onFormSubmit = async(e) => {
-//   e.preventDefault();
-//   setLoading(true);
-//   setFailedMessage('');
-//   loginUser(data)
-//   .then((res) =>{
-//     setText({authState:true, user:res.data})
-//   })
-//   .catch((err) => {
-//     setFailedMessage('Something went wrong');
-//   })
-//   .finally(() => setLoading(false));
-// }
+
+  // const onFormSubmit = async(e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setFailedMessage('');
+  //   loginUser(data)
+  //   .then((res) =>{
+  //     setText({authState:true, user:res.data})
+  //   })
+  //   .catch((err) => {
+  //     setFailedMessage('Something went wrong');
+  //   })
+  //   .finally(() => setLoading(false));
+  // }
 
   const handleNavigate = () => {
     navigate('/register');
   }
-  
+  const handleCaptcha =(value) =>{
+    console.log("Captcha value:", value);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -109,9 +111,13 @@ const Login = (props) => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-               <Button>
-                  {"Forgot your password?"}
-                </Button>
+            <ReCAPTCHA
+              sitekey="6LcXw8sgAAAAAIihp9OjCWbQEgjAO0v4xbgvY6wv"
+              onChange={handleCaptcha}
+            />
+            <Button>
+              {"Forgot your password?"}
+            </Button>
             <Button
               type="submit"
               fullWidth
