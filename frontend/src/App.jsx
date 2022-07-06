@@ -1,31 +1,38 @@
-const {  useRoutes } =require( "react-router-dom");
-const AppRoutes = require("./routes");
-const { Suspense, useEffect, useState,  } =require ('react');
-const { atom, useRecoilState } =require ("recoil");
-const axios = require("axios");
+import { useEffect } from "react";
+import { atom, useRecoilState } from "recoil";
+import axios from 'axios'
+import { Route, Routes } from "react-router-dom";
+import Register from "./components/register";
+import Login from "./components/login";
+import Dashboard from "./components/dashboard";
+
 
 export const textState = atom({
   key: 'auth', // unique ID (with respect to other atoms/selectors)
   default: {
-    authState:undefined,
-    user:undefined
+    authState: undefined,
+    user: undefined
   }, // default value (aka initial value)
 });
 
 export const App = () => {
-  const element = useRoutes(AppRoutes);
+
   const [text, setText] = useRecoilState(textState);
 
-  useEffect(()=>{
+  useEffect(() => {
     axios.get('/api/user/profile').then(
-     (res)=>{ setText({authState:true, user:res.data})})
+      (res) => { setText({ authState: true, user: res.data }) })
   })
-  return (  
-    <Suspense fallback={<> Loading ... </>}>    
-    {element}
-</Suspense>
+
+  return (
+    <Routes>
+      <Route path="/register" element={<Register open />} />
+      <Route path="/login" element={<Login open />} />
+      <Route path="/dashboard" element={<Dashboard open />} />
+
+    </Routes>
   )
-  ;
+    ;
 };
 
 export default App;

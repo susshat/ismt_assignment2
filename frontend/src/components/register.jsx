@@ -9,22 +9,36 @@ import {
   Typography,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { FormEvent } from "react";
+import axios from "axios";
+import { useFormik } from 'formik';
 
-export interface DialogProps {
-  open: boolean;
-}
 const theme = createTheme();
 
-const Register = (props: DialogProps) => {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+export const register = async(data) => 
+axios.post('/api/user/login', data);
+
+const Register = (props) => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      confirmPassword:''
+    },
+    onSubmit: values => console.log(values)
+  })
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
+  const handleNavigate = () => {
+    navigate('/register');
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -45,7 +59,7 @@ const Register = (props: DialogProps) => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -53,9 +67,11 @@ const Register = (props: DialogProps) => {
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
+              id="email"
+              label="email"
+              name="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
               autoFocus
             />
             <TextField
@@ -66,18 +82,22 @@ const Register = (props: DialogProps) => {
               label="Password"
               type="password"
               id="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="confirm-password"
-              label="confirm-password"
-              type="confirm-password"
-              id="confirm-password"
+              name="confirmPassword"
+              label="confirmPassword"
+              type="confirmPassword"
+              id="confirmPassword"
+              onChange={formik.handleChange}
+              value={formik.values.confirm-password}
             />
-
             <Button
+            onClick={handleNavigate}
               type="submit"
               fullWidth
               variant="contained"

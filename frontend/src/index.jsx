@@ -9,11 +9,11 @@ import App from "./App";
 ReactDOM.render(
   <StrictMode>
     <CssBaseline />
+      <RecoilRoot>
     <BrowserRouter>
-  <RecoilRoot>
-  <App />
-  </RecoilRoot>
+        <App />
     </BrowserRouter>
+      </RecoilRoot>
   </StrictMode>,
   document.getElementById("root")
 );

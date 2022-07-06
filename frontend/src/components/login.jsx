@@ -17,15 +17,13 @@ import { SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from "recoil";
 import { textState } from "../App";
 import { AxiosError } from 'axios';
-
-
-
+import { useFormik } from 'formik';
 
 
 export const loginUser = async(data) => 
  axios.post('/api/user/login', data);
 
- export const loginOut = async(data) => 
+ export const logOut = async(data) => 
  axios.post('/api/user/logout', data);
 
  export const getSessionUser=()=>
@@ -38,27 +36,27 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [failedMessage, setFailedMessage] = useState('');
   const [text, setText] = useRecoilState(textState);
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    onSubmit: values => console.log(values)
+  })
   
-const onFormSubmit = async(data) => {
-  setLoading(true);
-  setFailedMessage('');
-  loginUser(data)
-  .then((res) =>{
-    setText({authState:true, user:res.data})
-  })
-  .catch((err) => {
-    setFailedMessage('Something went wrong');
-  })
-  .finally(() => setLoading(false));
-}
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+// const onFormSubmit = async(e) => {
+//   e.preventDefault();
+//   setLoading(true);
+//   setFailedMessage('');
+//   loginUser(data)
+//   .then((res) =>{
+//     setText({authState:true, user:res.data})
+//   })
+//   .catch((err) => {
+//     setFailedMessage('Something went wrong');
+//   })
+//   .finally(() => setLoading(false));
+// }
 
   const handleNavigate = () => {
     navigate('/register');
@@ -83,7 +81,7 @@ const onFormSubmit = async(data) => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit(onFormSubmit)}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -96,6 +94,8 @@ const onFormSubmit = async(data) => {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={formik.handleChange}
+              value={formik.values.email}
             />
             <TextField
               margin="normal"
@@ -106,7 +106,12 @@ const onFormSubmit = async(data) => {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
             />
+               <Button>
+                  {"Forgot your password?"}
+                </Button>
             <Button
               type="submit"
               fullWidth
