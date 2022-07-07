@@ -1,0 +1,26 @@
+Requirements:
+   "@types/express-session"
+    "bcrypt"
+    "dotenv"
+    "express"
+    "express-session"
+    "mongoose"
+    "@emotion/react" 
+    "@emotion/styled":
+    "@mui/icons-material
+    "@mui/material"
+    "@testing-library/jest-dom"
+    "@testing-library/react"
+    "@testing-library/user-event"
+    "axios"
+    "formik"
+    "react"
+    "react-dom"
+    "react-google-recaptcha"
+    "react-hook-form"
+    "react-router-dom"
+    "react-scripts"
+    "recoil"
+    "web-vitals"
+    "zxcvbn"
+Project setup:
