@@ -6,14 +6,18 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function Checkout() {
   const userName = JSON.parse(localStorage.getItem('user')).email;
   console.log(userName)
-
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    localStorage.clear();
+    navigate('/login');
+  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -30,7 +34,7 @@ export default function Checkout() {
           <Typography variant="h6" color="inherit" noWrap sx>
             Welcome {userName} to Dashboard.
           </Typography>
-          <Button sx={{ my: { xs: 4, md: 4 }, p: { xs: 2, md: 3 } }}>Logout</Button>
+          <Button onClick={handleNavigate} sx={{ my: { xs: 4, md: 4 }, p: { xs: 2, md: 3 } }}>Logout</Button>
         </Toolbar>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           you have been sucesfully logged in.
