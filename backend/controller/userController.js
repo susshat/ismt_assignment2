@@ -1,3 +1,5 @@
+//moved the controller's code in routes
+
 
 // import User,  }
 //  from '../model/userModel';

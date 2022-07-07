@@ -12,20 +12,25 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import axios from "axios";
 import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
+import PasswordMeter from "./passwordmeter";
+
 
 const theme = createTheme();
 
-export const register = async(data) => 
-axios.post('/api/user/login', data);
+export const register = async (data) =>
+  axios.post('/api/user/login', data);
 
 const Register = (props) => {
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      confirmPassword:''
+      confirmPassword: ''
     },
-    onSubmit: values => console.log(values)
+    onSubmit: values => {
+      axios.post('/api/user/register', { ...values, username: values.email, name: values.email })
+        .then(()=>handleNavigate()).catch(err => console.log(err));
+    }
   })
 
   // const handleSubmit = (event) => {
@@ -39,8 +44,9 @@ const Register = (props) => {
 
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate('/register');
+    window.location.href = '/login';
   }
+
 
 
   return (
@@ -71,7 +77,7 @@ const Register = (props) => {
               required
               fullWidth
               id="email"
-              label="email"
+              label="Email"
               name="email"
               onChange={formik.handleChange}
               value={formik.values.email}
@@ -88,19 +94,22 @@ const Register = (props) => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
+            {formik.values.password && <PasswordMeter password={formik.values.password} />}
+
             <TextField
               margin="normal"
               required
               fullWidth
               name="confirmPassword"
-              label="confirmPassword"
-              type="confirmPassword"
+              label="confirm Password"
+              type="password"
               id="confirmPassword"
               onChange={formik.handleChange}
-              value={formik.values.confirmpassword}
+              value={formik.values.confirmPassword}
             />
+
             <Button
-            onClick={handleNavigate}
+              // onClick={handleNavigate}
               type="submit"
               fullWidth
               variant="contained"

@@ -8,24 +8,25 @@ const APIRouter =require( './routes');
 
 
 const bootstrap = async () => {
+  console.log('aa')
   const app = express()
 
   dotenv.config();
 
   const mongoString = process.env.DATABASE_URL
   const httpServer = http.createServer(app);
-  const sess = {
-    secret: process.env.SESSION_SECRET ?? '',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {},
-  };
-  if (process.env.isHTTPS === 'true') {
-    app.set('trust proxy', 1);
-    sess.cookie.secure = true;
-  }
+  // const sess = {
+  //   secret: process.env.SESSION_SECRET ?? 'test',
+  //   resave: true,
+  //   saveUninitialized: true,
+  //   cookie: {},
+  // };
+  // if (process.env.isHTTPS === 'true') {
+  //   app.set('trust proxy', 1);
+  //   sess.cookie.secure = true;
+  // }
 
-  app.use(expressSession(sess));
+  // app.use(expressSession(sess));
   app.use(express.json());
   app.use('/api',APIRouter);
 

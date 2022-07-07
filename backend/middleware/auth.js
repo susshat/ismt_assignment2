@@ -2,6 +2,7 @@
 const User = require ("../model/userModel");
 
 const auth=  async (req, res, next) =>{
+    // console.log(req,'tr')
 try {
     const userId = req.session.userId;
 if(!userId){

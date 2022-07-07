@@ -5,6 +5,7 @@ const auth =require( "../middleware/auth");
 const router = Router();
 
 
-router.use("/user", auth, userRoute);
+// router.use("/user", auth, userRoute);
+router.use("/user", userRoute);
 
 module.exports= router;

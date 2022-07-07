@@ -35,33 +35,31 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [failedMessage, setFailedMessage] = useState('');
   const [text, setText] = useRecoilState(textState);
+  const [captcha, setCaptcha] = useState('');
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: ''
     },
-    onSubmit: values => console.log(values)
+    onSubmit: values => {
+      if (captcha) {
+        setLoading(true);
+        axios.post('/api/user/login', { username: values.email, password: values.password }).then((res) => {
+          setLoading(false)
+          localStorage.setItem('user', JSON.stringify(res.data))
+          navigate('/dashboard');
+        }).finally(setLoading(false))
+      }
+    }
   })
 
-  // const onFormSubmit = async(e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-  //   setFailedMessage('');
-  //   loginUser(data)
-  //   .then((res) =>{
-  //     setText({authState:true, user:res.data})
-  //   })
-  //   .catch((err) => {
-  //     setFailedMessage('Something went wrong');
-  //   })
-  //   .finally(() => setLoading(false));
-  // }
 
   const handleNavigate = () => {
     navigate('/register');
   }
-  const handleCaptcha =(value) =>{
-    console.log("Captcha value:", value);
+  const handleCaptcha = (value) => {
+    setCaptcha(value)
   }
 
   return (
@@ -115,14 +113,12 @@ const Login = (props) => {
               sitekey="6LcXw8sgAAAAAIihp9OjCWbQEgjAO0v4xbgvY6wv"
               onChange={handleCaptcha}
             />
-            <Button>
-              {"Forgot your password?"}
-            </Button>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!formik.values.email || !formik.values.password || !captcha}
             >
               Sign In
             </Button >
