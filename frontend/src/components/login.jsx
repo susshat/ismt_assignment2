@@ -53,7 +53,6 @@ const Login = (props) => {
     }
   })
 
-
   const handleNavigate = () => {
     navigate('/register');
   }

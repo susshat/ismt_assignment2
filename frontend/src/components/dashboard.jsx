@@ -37,7 +37,13 @@ export default function Checkout() {
           <Button onClick={handleNavigate} sx={{ my: { xs: 4, md: 4 }, p: { xs: 2, md: 3 } }}>Logout</Button>
         </Toolbar>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          You have been sucesfully logged in. 
+          You have been sucesfully logged in.<br/> 
+▕╮╭┻┻╮╭┻┻╮╭▕╮╲<br/>
+▕╯┃╭╮┃┃╭╮┃╰▕╯╭▏<br/>
+▕╭┻┻┻┛┗┻┻┛ ▕ ╰▏<br/>
+▕╰━━━┓┈┈┈╭╮▕╭╮▏<br/>
+▕╭╮╰┳┳┳┳╯╰╯▕╰╯▏<br/>
+▕╰╯┈┗┛┗┛┈╭╮▕╮┈▏<br/>
         </Paper>
       </AppBar>
 
