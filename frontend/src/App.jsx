@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
 import axios from 'axios'
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Register from "./components/register";
 import Login from "./components/login";
 import Dashboard from "./components/dashboard";
@@ -29,6 +29,7 @@ export const App = () => {
       <Route path="/register" element={<Register open />} />
       <Route path="/login" element={<Login open />} />
       <Route path="/dashboard" element={<Dashboard open />} />
+      <Route index element={<Navigate to='login' />} />
 
     </Routes>
   )

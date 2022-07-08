@@ -40,17 +40,16 @@ const Login = (props) => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: ''
+      password: '',
+      captcha: ''
     },
     onSubmit: values => {
-      if (captcha) {
-        setLoading(true);
-        axios.post('/api/user/login', { username: values.email, password: values.password }).then((res) => {
-          setLoading(false)
-          localStorage.setItem('user', JSON.stringify(res.data))
-          navigate('/dashboard');
-        }).finally(setLoading(false))
-      }
+      setLoading(true);
+      axios.post('/api/user/login',values).then((res) => {
+        setLoading(false)
+        localStorage.setItem('user', JSON.stringify(res.data))
+        navigate('/dashboard');
+      }).finally(setLoading(false))
     }
   })
 
@@ -59,7 +58,7 @@ const Login = (props) => {
     navigate('/register');
   }
   const handleCaptcha = (value) => {
-    setCaptcha(value)
+    formik.setFieldValue('captcha',value)
   }
 
   return (
@@ -109,18 +108,16 @@ const Login = (props) => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-         <form>
          <ReCAPTCHA
               sitekey="6LcXw8sgAAAAAIihp9OjCWbQEgjAO0v4xbgvY6wv"
               onChange={handleCaptcha}
             />
-         </form>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={!formik.values.email || !formik.values.password || !captcha}
+              disabled={!formik.values.email || !formik.values.password || !formik.values.captcha}
             >
               Sign In
             </Button >

@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const auth = require('../middleware/auth');
 const User = require('../model/userModel')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const checkCaptcha = require('../middleware/checkCaptcha');
 const saltRounds = 14;
 
 
@@ -35,12 +36,12 @@ router.post("/register",
             return res.status(500).json('internal server error');
         }
     });
-router.post("/login",
+router.post("/login",checkCaptcha,
     async (req, res) => {
         try {
             console.log(req.body)
             const user = await User.findOne({
-                username: req.body.username
+                username: req.body.email
             })
             console.log(user)
             //for un registered user
@@ -62,7 +63,6 @@ router.post("/login",
                     .status(401)
                     .json({ status: 401, message: "Invalid Password" });
 
-            //   req.session.userId= user._id.toString();
             res.json(user);
 
         } catch (error) {
@@ -70,23 +70,6 @@ router.post("/login",
             return res.status(500).json('internal server error');
         }
     });
-// router.post("/changePassword",
-//     async (req, res) => {
-//         try {
-            
-//             const oldPassword = await bcrypt.verify(req.body.oldPassword, res.locals.user.password);
-
-//             if (oldPassword) {
-//                 User.findOneAndUpdate({ _id: res.locals.user._id, },
-//                     { password: req.body.newPassword })
-//             } else {
-//                 return res.status(400).json('Old password do-not match');
-//             }
-
-//         } catch (error) {
-//             return res.status(500).json('internal server error');
-//         }
-//     });
 router.post("/logout",
     async (req, res) => {
         req.session.destroy((error) => {
