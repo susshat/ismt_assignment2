@@ -1,14 +1,9 @@
-// import { zxcvbn } from "zxcvbn";
-import zxcvbn from 'zxcvbn';
-
-
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import zxcvbn from 'zxcvbn';
 
 function LinearProgressWithLabel({label,...props}) {
-  console.log(label)
-  
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ width: '100%', mr: 1 }}>
@@ -21,16 +16,11 @@ function LinearProgressWithLabel({label,...props}) {
     </Box>
   );
 }
-
-
 const PasswordMeter = (password) => {
-  // console.log(password)
     const testedResult = zxcvbn(password.password);
     const createPasswordLabel = (result) => {
-        // return 'Weak'
-        // console.log(result)
         switch (result.score) {
-    
+    //switch-case to determine the strength of password from weak<fair<good<strong 
             case 0:
                 return {label:'Weak',color:'error'};
             case 1:

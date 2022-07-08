@@ -14,7 +14,6 @@ import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
 import PasswordMeter from "./passwordmeter";
 
-
 const theme = createTheme();
 
 export const register = async (data) =>
@@ -32,21 +31,10 @@ const Register = (props) => {
         .then(()=>handleNavigate()).catch(err => console.log(err));
     }
   })
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
-
   const navigate = useNavigate();
   const handleNavigate = () => {
     window.location.href = '/login';
   }
-
 
 
   return (
@@ -109,7 +97,6 @@ const Register = (props) => {
             />
 
             <Button
-              // onClick={handleNavigate}
               type="submit"
               fullWidth
               variant="contained"
