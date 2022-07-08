@@ -70,22 +70,23 @@ router.post("/login",
             return res.status(500).json('internal server error');
         }
     });
-router.post("/changePassword",
-    async (req, res) => {
-        try {
-            const oldPassword = await bcrypt.verify(req.body.oldPassword, res.locals.user.password);
+// router.post("/changePassword",
+//     async (req, res) => {
+//         try {
+            
+//             const oldPassword = await bcrypt.verify(req.body.oldPassword, res.locals.user.password);
 
-            if (oldPassword) {
-                User.findOneAndUpdate({ _id: res.locals.user._id, },
-                    { password: req.body.newPassword })
-            } else {
-                return res.status(400).json('Old password do-not match');
-            }
+//             if (oldPassword) {
+//                 User.findOneAndUpdate({ _id: res.locals.user._id, },
+//                     { password: req.body.newPassword })
+//             } else {
+//                 return res.status(400).json('Old password do-not match');
+//             }
 
-        } catch (error) {
-            return res.status(500).json('internal server error');
-        }
-    });
+//         } catch (error) {
+//             return res.status(500).json('internal server error');
+//         }
+//     });
 router.post("/logout",
     async (req, res) => {
         req.session.destroy((error) => {

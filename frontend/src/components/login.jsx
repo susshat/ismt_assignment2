@@ -33,8 +33,8 @@ const theme = createTheme();
 const Login = (props) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [failedMessage, setFailedMessage] = useState('');
-  const [text, setText] = useRecoilState(textState);
+  // const [failedMessage, setFailedMessage] = useState('');
+  // const [text, setText] = useRecoilState(textState);
   const [captcha, setCaptcha] = useState('');
 
   const formik = useFormik({
@@ -109,10 +109,12 @@ const Login = (props) => {
               onChange={formik.handleChange}
               value={formik.values.password}
             />
-            <ReCAPTCHA
+         <form>
+         <ReCAPTCHA
               sitekey="6LcXw8sgAAAAAIihp9OjCWbQEgjAO0v4xbgvY6wv"
               onChange={handleCaptcha}
             />
+         </form>
             <Button
               type="submit"
               fullWidth
